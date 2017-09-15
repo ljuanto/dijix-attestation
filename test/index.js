@@ -4,7 +4,7 @@ import assert from 'assert';
 
 import DijixAttestation from '../src';
 
-const fakeIpfsHash = fakeIpfsHash;
+const fakeIpfsHash = 'fake ipfs hash';
 
 const mockDijix = {
   create: () => ({ ipfsHash: fakeIpfsHash }),

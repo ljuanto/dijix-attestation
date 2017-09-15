@@ -9,7 +9,7 @@ export default class DijixAttestation {
     return a.map(proofs, 1, async (proof) => {
       if (typeof proof !== 'object') { return proof; }
       if (!proof.type) { return proof; }
-      return (dijix.create(proof.type, proof)).ipfsHash;
+      return (await dijix.create(proof.type, proof)).ipfsHash;
     });
   }
   async creationPipeline(opts, dijix) {

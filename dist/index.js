@@ -79,9 +79,13 @@ var DijixAttestation = function () {
                             return _context.abrupt('return', proof);
 
                           case 4:
-                            return _context.abrupt('return', dijix.create(proof.type, proof).ipfsHash);
+                            _context.next = 6;
+                            return dijix.create(proof.type, proof);
 
-                          case 5:
+                          case 6:
+                            return _context.abrupt('return', _context.sent.ipfsHash);
+
+                          case 7:
                           case 'end':
                             return _context.stop();
                         }
