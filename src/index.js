@@ -4,22 +4,29 @@ export default class DijixAttestation {
   constructor() {
     this.type = 'attestation';
   }
-  async processProofs(proofs, dijix) {
-    if (!proofs) return [];
-    return a.map(proofs, 1, async (proof) => {
+  async processProofs(proofConfigs, dijix) {
+    if (!proofConfigs) return {};
+    const embeds = {};
+    const proofs = await a.map(proofConfigs, 1, async (proof) => {
       if (typeof proof !== 'object') { return proof; }
       if (!proof.type) { return proof; }
-      return (await dijix.create(proof.type, proof)).ipfsHash;
+      const { embed, ...proofData } = proof;
+      const dijixObject = await dijix.create(proof.type, proofData);
+      if (embed) {
+        embeds[embed] = dijixObject;
+      }
+      return dijixObject.ipfsHash;
     });
+    return { proofs, embeds };
   }
   async creationPipeline(opts, dijix) {
-    const dijixObjectData = {
-      proofs: await this.processProofs(opts.proofs, dijix),
-    };
+    const { proofs = [], embeds = {} } = (await this.processProofs(opts.proofs, dijix));
+    const dijixObjectData = { proofs };
     const version = opts.version || (opts.type && '0.0.1');
     if (version) { dijixObjectData.version = version; }
     if (opts.type) { dijixObjectData.type = opts.type; }
-    if (opts.attestation) { dijixObjectData.attestation = opts.attestation; }
+    const attestation = typeof opts.attestation === 'object' ? { ...opts.attestation, ...embeds } : opts.attestation;
+    if (opts.attestation) { dijixObjectData.attestation = attestation; }
     return dijixObjectData;
   }
 }

@@ -12,10 +12,8 @@ dijix.create('attestation', {
   },
   proofs: [
     { type: 'pdf', src: '...', ...data }, // must register these dijix plugins, config is passed
-    { type: 'image', src: '...', ...data },
+    { type: 'image', src: '...', embed: 'imageKey' ...data }, // use `embed` to embed the dijix object into the attestation using the passed key
     // if a non-object is passed, or type is not set, add a string(ify)
   ],
 });
-
-// PoA attestation
 ```

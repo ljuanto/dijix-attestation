@@ -1,6 +1,6 @@
 {
   "name": "dijix-attestation",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Attestation Plugin for Dijix",
   "main": "dist/index.js",
   "files": [
